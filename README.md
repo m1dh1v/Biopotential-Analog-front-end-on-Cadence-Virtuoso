@@ -6,9 +6,13 @@ and checking every number against hand calcs. The project was inspired by my Ana
 Tools: Cadence Virtuoso + Spectre, gpdk180 (BSIM3v3), Python for post-processing. Dataset from web and hopefully will use the data that I acquire myself from something I design
 
 Phasewise Division
+
 | 1 | gm/ID characterization + weak-inversion folded-cascode OTA
+
 | 2 | Capacitively-coupled LNA (CCIA) + pseudo-resistors
+
 | 3 | Chopper-stabilized LNA
+
 | 4–7 | Gm-C filter, PGA, full chain PVT/Monte Carlo, layout (I plan to do it later in winters)
 
 Each phase folder has its own report, plots, netlists and scripts. Big raw simulation data is not tracked.
