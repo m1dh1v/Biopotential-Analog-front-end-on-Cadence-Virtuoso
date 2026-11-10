@@ -54,25 +54,28 @@ Design choices that run through the whole project:
 | CMRR @ 50 Hz (0.1 % Cin mismatch) | 92.7 dB | > 80 dB, pass |
 | THD at 1 mV | 0.027 % | < 1 %, pass |
 
-What I learned the hard way (full story in the Phase 2 folder):
+What I learned (details in the Phase 2 folder):
 - Noise is flicker-limited: about 48 % MOS flicker, 36 % MOS thermal, 16 % pseudo-resistor of the in-band noise power. That's exactly what chopping targets.
 - The input pair has an optimum size: more gate area cuts flicker but adds capacitance that multiplies noise by (Cin + Cf + Cp)/Cin = 1.235.
 - Long pseudo-resistor devices bypass themselves with their own gate capacitance. I found that by swapping in an ideal resistor.
 - Output clips at about 0.63 V on the low side, so THD rises quickly above 3 mV input.
 - Overload recovery takes 6.7 s, and f_HP moves from 0.08 Hz to 11 Hz across 0–80 °C.
 
-### Honest limits right now
-Typical corner only, no Monte Carlo yet, ideal bias reference, no layout. CMRR is optimistic since only capacitor mismatch is modelled.
-
 ## Roadmap
-| Phase | What | Status |
-|---|---|---|
+Phase
+
 | 1 | gm/ID characterization + weak-inversion folded-cascode OTA | done |
+
 | 2 | Capacitively-coupled LNA (CCIA) + pseudo-resistors | done |
+
 | 3 | Chopper-stabilized LNA (goal: in-band noise under 2 µV; NEF will need a smaller input pair too) | next |
+
 | 4 | Tunable Gm-C low-pass filter | later |
+
 | 5 | PGA | later |
+
 | 6 | Full chain: PVT corners, Monte Carlo, real ECG/EEG playback | later |
+
 | 7 | Layout (common-centroid input pair, guard rings), DRC/LVS | I plan to do it in winters |
 
 ## Repo layout
