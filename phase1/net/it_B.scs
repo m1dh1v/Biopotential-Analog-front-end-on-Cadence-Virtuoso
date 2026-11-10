@@ -1,0 +1,49 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 CL=5p LBIG=1e16
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-15 temp=27 tnom=27 gmin=1e-15
+subckt ota_fc vip vin vout vdd vss nbn nbp vcn vcp
+    MBP_0 (nbp nbp MBP_s1 vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    MBP_1 (MBP_s1 nbp vdd vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    MBN_0 (nbn nbn MBN_s1 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_1 (MBN_s1 nbn MBN_s2 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_2 (MBN_s2 nbn MBN_s3 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_3 (MBN_s3 nbn MBN_s4 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_4 (MBN_s4 nbn vss vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M0_0 (tail nbp M0_s1 vdd) pmos1 w=1u l=20u m=8 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M0_1 (M0_s1 nbp vdd vdd) pmos1 w=1u l=20u m=8 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M1 (f1 vip tail tail) pmos1 w=50u l=4u m=10 ad=30p as=30p pd=101.2u ps=101.2u
+    M2 (f2 vin tail tail) pmos1 w=50u l=4u m=10 ad=30p as=30p pd=101.2u ps=101.2u
+    M3_0 (f1 nbn M3_s1 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_1 (M3_s1 nbn M3_s2 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_2 (M3_s2 nbn M3_s3 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_3 (M3_s3 nbn M3_s4 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_4 (M3_s4 nbn vss vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_0 (f2 nbn M4_s1 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_1 (M4_s1 nbn M4_s2 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_2 (M4_s2 nbn M4_s3 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_3 (M4_s3 nbn M4_s4 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_4 (M4_s4 nbn vss vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M5 (x1 vcn f1 vss) nmos1 w=0.4u l=1u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M6 (vout vcn f2 vss) nmos1 w=0.4u l=1u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M7 (p1 x1 vdd vdd) pmos1 w=0.5u l=20u m=2 ad=0.3p as=0.3p pd=2.2u ps=2.2u
+    M8 (p2 x1 vdd vdd) pmos1 w=0.5u l=20u m=2 ad=0.3p as=0.3p pd=2.2u ps=2.2u
+    M9 (x1 vcp p1 vdd) pmos1 w=0.6u l=1u m=1 ad=0.36p as=0.36p pd=2.4u ps=2.4u
+    M10 (vout vcp p2 vdd) pmos1 w=0.6u l=1u m=1 ad=0.36p as=0.36p pd=2.4u ps=2.4u
+ends ota_fc
+IBP (nbp 0) isource dc=5e-08
+IBN (vdd nbn) isource dc=5e-08
+VCN (vcn 0) vsource dc=1
+VCP (vcp 0) vsource dc=0.75
+VDD (vdd 0) vsource dc=VDD
+VIP (vip 0) vsource dc=VCM mag=1
+LFB (vout vin) inductor l=LBIG
+CFB (vin 0) capacitor c=LBIG
+CLD (vout 0) capacitor c=5p
+I0 (vip vin vout vdd 0 nbn nbp vcn vcp) ota_fc
+save vout vin vip I0.tail I0.f1 I0.f2 I0.x1 I0.p1 I0.p2 nbn nbp VDD:p I0.MBP_0:ids I0.MBP_0:gm I0.MBP_0:gds I0.MBP_0:vgs I0.MBP_0:vds I0.MBP_0:vth I0.MBP_0:vdsat I0.MBP_0:region I0.MBP_1:ids I0.MBP_1:gm I0.MBP_1:gds I0.MBP_1:vgs I0.MBP_1:vds I0.MBP_1:vth I0.MBP_1:vdsat I0.MBP_1:region I0.MBN_0:ids I0.MBN_0:gm I0.MBN_0:gds I0.MBN_0:vgs I0.MBN_0:vds I0.MBN_0:vth I0.MBN_0:vdsat I0.MBN_0:region I0.MBN_1:ids I0.MBN_1:gm I0.MBN_1:gds I0.MBN_1:vgs I0.MBN_1:vds I0.MBN_1:vth I0.MBN_1:vdsat I0.MBN_1:region I0.MBN_2:ids I0.MBN_2:gm I0.MBN_2:gds I0.MBN_2:vgs I0.MBN_2:vds I0.MBN_2:vth I0.MBN_2:vdsat I0.MBN_2:region I0.MBN_3:ids I0.MBN_3:gm I0.MBN_3:gds I0.MBN_3:vgs I0.MBN_3:vds I0.MBN_3:vth I0.MBN_3:vdsat I0.MBN_3:region I0.MBN_4:ids I0.MBN_4:gm I0.MBN_4:gds I0.MBN_4:vgs I0.MBN_4:vds I0.MBN_4:vth I0.MBN_4:vdsat I0.MBN_4:region I0.M0_0:ids I0.M0_0:gm I0.M0_0:gds I0.M0_0:vgs I0.M0_0:vds I0.M0_0:vth I0.M0_0:vdsat I0.M0_0:region I0.M0_1:ids I0.M0_1:gm I0.M0_1:gds I0.M0_1:vgs I0.M0_1:vds I0.M0_1:vth I0.M0_1:vdsat I0.M0_1:region I0.M1:ids I0.M1:gm I0.M1:gds I0.M1:vgs I0.M1:vds I0.M1:vth I0.M1:vdsat I0.M1:region I0.M2:ids I0.M2:gm I0.M2:gds I0.M2:vgs I0.M2:vds I0.M2:vth I0.M2:vdsat I0.M2:region I0.M3_0:ids I0.M3_0:gm I0.M3_0:gds I0.M3_0:vgs I0.M3_0:vds I0.M3_0:vth I0.M3_0:vdsat I0.M3_0:region I0.M3_1:ids I0.M3_1:gm I0.M3_1:gds I0.M3_1:vgs I0.M3_1:vds I0.M3_1:vth I0.M3_1:vdsat I0.M3_1:region I0.M3_2:ids I0.M3_2:gm I0.M3_2:gds I0.M3_2:vgs I0.M3_2:vds I0.M3_2:vth I0.M3_2:vdsat I0.M3_2:region I0.M3_3:ids I0.M3_3:gm I0.M3_3:gds I0.M3_3:vgs I0.M3_3:vds I0.M3_3:vth I0.M3_3:vdsat I0.M3_3:region I0.M3_4:ids I0.M3_4:gm I0.M3_4:gds I0.M3_4:vgs I0.M3_4:vds I0.M3_4:vth I0.M3_4:vdsat I0.M3_4:region I0.M4_0:ids I0.M4_0:gm I0.M4_0:gds I0.M4_0:vgs I0.M4_0:vds I0.M4_0:vth I0.M4_0:vdsat I0.M4_0:region I0.M4_1:ids I0.M4_1:gm I0.M4_1:gds I0.M4_1:vgs I0.M4_1:vds I0.M4_1:vth I0.M4_1:vdsat I0.M4_1:region I0.M4_2:ids I0.M4_2:gm I0.M4_2:gds I0.M4_2:vgs I0.M4_2:vds I0.M4_2:vth I0.M4_2:vdsat I0.M4_2:region I0.M4_3:ids I0.M4_3:gm I0.M4_3:gds I0.M4_3:vgs I0.M4_3:vds I0.M4_3:vth I0.M4_3:vdsat I0.M4_3:region I0.M4_4:ids I0.M4_4:gm I0.M4_4:gds I0.M4_4:vgs I0.M4_4:vds I0.M4_4:vth I0.M4_4:vdsat I0.M4_4:region I0.M5:ids I0.M5:gm I0.M5:gds I0.M5:vgs I0.M5:vds I0.M5:vth I0.M5:vdsat I0.M5:region I0.M6:ids I0.M6:gm I0.M6:gds I0.M6:vgs I0.M6:vds I0.M6:vth I0.M6:vdsat I0.M6:region I0.M7:ids I0.M7:gm I0.M7:gds I0.M7:vgs I0.M7:vds I0.M7:vth I0.M7:vdsat I0.M7:region I0.M8:ids I0.M8:gm I0.M8:gds I0.M8:vgs I0.M8:vds I0.M8:vth I0.M8:vdsat I0.M8:region I0.M9:ids I0.M9:gm I0.M9:gds I0.M9:vgs I0.M9:vds I0.M9:vth I0.M9:vdsat I0.M9:region I0.M10:ids I0.M10:gm I0.M10:gds I0.M10:vgs I0.M10:vds I0.M10:vth I0.M10:vdsat I0.M10:region
+op dc
+ac1 ac start=1m stop=100M dec=20
+nz (vout 0) noise start=0.1 stop=100k dec=40 iprobe=VIP
+

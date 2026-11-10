@@ -1,0 +1,15 @@
+// input-referred gate noise, W/L=20u/2u, ID=100nA, |VDS|=0.9
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+MN (dn gn 0 0) nmos1 w=20u l=2u as=12p ad=12p ps=41.2u pd=41.2u
+VDN (dn 0) vsource dc=0.9
+VGN (gn 0) vsource dc=0.27672 mag=1
+MP (dp gp vdd vdd) pmos1 w=20u l=2u as=12p ad=12p ps=41.2u pd=41.2u
+VDD (vdd 0) vsource dc=1.8
+VDP (dp 0) vsource dc=0.9
+VGP (gp 0) vsource dc=1.8-0.34482 mag=1
+simulatorOptions options reltol=1e-6 iabstol=1e-16 temp=27 tnom=27 gmin=1e-16
+op dc
+nN noise start=0.1 stop=10M dec=20 oprobe=VDN iprobe=VGN separatenoise=yes
+nP noise start=0.1 stop=10M dec=20 oprobe=VDP iprobe=VGP separatenoise=yes

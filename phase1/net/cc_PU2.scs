@@ -1,0 +1,14 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 CL=5p 
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-15 temp=27 tnom=27 gmin=1e-15
+
+X_0 (d g X_s1 vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+X_1 (X_s1 g vdd vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+VD (d 0) vsource dc=1.8-VDS
+VG (g 0) vsource dc=1.8-VG
+VDD (vdd 0) vsource dc=1.8
+parameters VDS=0.9 VG=0.5
+save VD:p
+sg dc param=VG start=0.3 stop=1.2 step=1m

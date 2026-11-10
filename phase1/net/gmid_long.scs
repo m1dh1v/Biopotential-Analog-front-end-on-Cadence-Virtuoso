@@ -1,0 +1,11 @@
+// gm/ID characterization: sweep L and VGS on AFE_lib/tb_gmid netlist
+simulator lang=spectre
+global 0
+parameters VDD=1.8 VGS=0.9 Lx=1e-06
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+include "/home/ISDL_UG_86/simulation/tb_gmid/spectre/schematic/netlist/netlist"
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-16 temp=27 tnom=27 gmin=1e-16
+save M0:ids M0:gm M0:gds M0:cgg M0:vth M0:vdsat M0:region M1:ids M1:gm M1:gds M1:cgg M1:vth M1:vdsat M1:region
+swL sweep param=Lx values=[8u 12u 20u] {
+  dcsw dc param=VGS start=0 stop=1.8 step=5m
+}

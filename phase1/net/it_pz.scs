@@ -1,0 +1,51 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 CL=5p LBIG=1e16
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-15 temp=27 tnom=27 gmin=1e-15
+subckt ota_fc vip vin vout vdd vss nbn nbp vcn vcp
+    MBP_0 (nbp nbp MBP_s1 vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    MBP_1 (MBP_s1 nbp vdd vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    MBN_0 (nbn nbn MBN_s1 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_1 (MBN_s1 nbn MBN_s2 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_2 (MBN_s2 nbn MBN_s3 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_3 (MBN_s3 nbn MBN_s4 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_4 (MBN_s4 nbn vss vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M0_0 (tail nbp M0_s1 vdd) pmos1 w=1u l=20u m=8 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M0_1 (M0_s1 nbp vdd vdd) pmos1 w=1u l=20u m=8 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M1 (f1 vip tail tail) pmos1 w=50u l=4u m=10 ad=30p as=30p pd=101.2u ps=101.2u
+    M2 (f2 vin tail tail) pmos1 w=50u l=4u m=10 ad=30p as=30p pd=101.2u ps=101.2u
+    M3_0 (f1 nbn M3_s1 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_1 (M3_s1 nbn M3_s2 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_2 (M3_s2 nbn M3_s3 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_3 (M3_s3 nbn M3_s4 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_4 (M3_s4 nbn vss vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_0 (f2 nbn M4_s1 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_1 (M4_s1 nbn M4_s2 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_2 (M4_s2 nbn M4_s3 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_3 (M4_s3 nbn M4_s4 vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_4 (M4_s4 nbn vss vss) nmos1 w=0.4u l=20u m=6 ad=0.24p as=0.24p pd=2u ps=2u
+    M5 (x1 vcn f1 vss) nmos1 w=0.4u l=1u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M6 (vout vcn f2 vss) nmos1 w=0.4u l=1u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M7_0 (p1 x1 M7_s1 vdd) pmos1 w=1u l=20u m=2 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M7_1 (M7_s1 x1 vdd vdd) pmos1 w=1u l=20u m=2 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M8_0 (p2 x1 M8_s1 vdd) pmos1 w=1u l=20u m=2 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M8_1 (M8_s1 x1 vdd vdd) pmos1 w=1u l=20u m=2 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M9 (x1 vcp p1 vdd) pmos1 w=0.6u l=1u m=1 ad=0.36p as=0.36p pd=2.4u ps=2.4u
+    M10 (vout vcp p2 vdd) pmos1 w=0.6u l=1u m=1 ad=0.36p as=0.36p pd=2.4u ps=2.4u
+ends ota_fc
+IBP (nbp 0) isource dc=5e-08
+IBN (vdd nbn) isource dc=5e-08
+VCN (vcn 0) vsource dc=1
+VCP (vcp 0) vsource dc=0.75
+VDD (vdd 0) vsource dc=VDD
+VIP (vip 0) vsource dc=VCM
+IPRB (vout vin) iprobe
+CLD (vout 0) capacitor c=CL
+I0 (vip vin vout vdd 0 nbn nbp vcn vcp) ota_fc
+VIP2 (vip2 0) vsource dc=VCM mag=1
+LFB2 (vout2 vin2) inductor l=1G
+CFB2 (vin2 0) capacitor c=1G
+CLD2 (vout2 0) capacitor c=5p
+I2 (vip2 vin2 vout2 vdd 0 nbn nbp vcn vcp) ota_fc
+pz1 (vout2 0) pz iprobe=VIP2 fmax=1G
