@@ -1,0 +1,72 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 VREF=0.9 IREF=2.5e-08 CL=2e-12 LIN=4e-06 WPR=4e-07 LPR=2e-05 WCIN=0.00014122 LCIN1=0.00014122 WCF=1.3943e-05 VOS=0 AMP=0.001 FSIG=10
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-15 gmin=1e-15 temp=27 tnom=27
+subckt bias_gen vdd vss vcn nbn nbp vcp
+    MC (vcn vcn nbn vss) nmos1 w=4u l=1u m=1 ad=2.4p as=2.4p pd=9.2u ps=9.2u
+    MBN_0 (nbn nbn MBN_s1 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_1 (MBN_s1 nbn MBN_s2 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_2 (MBN_s2 nbn MBN_s3 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_3 (MBN_s3 nbn MBN_s4 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_4 (MBN_s4 nbn vss vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_0 (vcp nbn MBS_s1 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_1 (MBS_s1 nbn MBS_s2 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_2 (MBS_s2 nbn MBS_s3 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_3 (MBS_s3 nbn MBS_s4 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_4 (MBS_s4 nbn vss vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MCP (vcp vcp nbp vdd) pmos1 w=20u l=1u m=1 ad=12p as=12p pd=41.2u ps=41.2u
+    MBP_0 (nbp nbp MBP_s1 vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    MBP_1 (MBP_s1 nbp vdd vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+ends bias_gen
+subckt ota_fc_lna vip vin vout vdd vss iref
+    M0_0 (tail nbp M0_s1 vdd) pmos1 w=1u l=20u m=16 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M0_1 (M0_s1 nbp vdd vdd) pmos1 w=1u l=20u m=16 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M1 (f1 vip tail tail) pmos1 w=50u l=LIN m=10 ad=30p as=30p pd=101.2u ps=101.2u
+    M2 (f2 vin tail tail) pmos1 w=50u l=LIN m=10 ad=30p as=30p pd=101.2u ps=101.2u
+    M3_0 (f1 nbn M3_s1 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_1 (M3_s1 nbn M3_s2 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_2 (M3_s2 nbn M3_s3 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_3 (M3_s3 nbn M3_s4 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_4 (M3_s4 nbn vss vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_0 (f2 nbn M4_s1 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_1 (M4_s1 nbn M4_s2 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_2 (M4_s2 nbn M4_s3 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_3 (M4_s3 nbn M4_s4 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_4 (M4_s4 nbn vss vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M5 (x1 iref f1 vss) nmos1 w=0.4u l=1u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M6 (vout iref f2 vss) nmos1 w=0.4u l=1u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M7 (p1 x1 vdd vdd) pmos1 w=0.5u l=20u m=1 ad=0.3p as=0.3p pd=2.2u ps=2.2u
+    M8 (p2 x1 vdd vdd) pmos1 w=0.5u l=20u m=1 ad=0.3p as=0.3p pd=2.2u ps=2.2u
+    M9 (x1 vcp p1 vdd) pmos1 w=0.6u l=1u m=1 ad=0.36p as=0.36p pd=2.4u ps=2.4u
+    M10 (vout vcp p2 vdd) pmos1 w=0.6u l=1u m=1 ad=0.36p as=0.36p pd=2.4u ps=2.4u
+    XB (vdd vss iref nbn nbp vcp) bias_gen
+ends ota_fc_lna
+subckt pseudo_r a b
+    MPA (mid mid a a) pmos1 w=WPR l=LPR ad=WPR*0.6u as=WPR*0.6u pd=2*WPR+1.2u ps=2*WPR+1.2u
+    MPB (mid mid b b) pmos1 w=WPR l=LPR ad=WPR*0.6u as=WPR*0.6u pd=2*WPR+1.2u ps=2*WPR+1.2u
+ends pseudo_r
+subckt lna_cci vinp vinn vref vout vdd vss iref
+    CIN1 (vinp ninv) mimcap area=WCIN*LCIN1 perim=2*WCIN+2*LCIN1
+    CIN2 (vinn nnon) mimcap area=WCIN*WCIN perim=4*WCIN
+    CF1 (vfb ninv) mimcap area=WCF*WCF perim=4*WCF
+    PR1_0 (vfb pr1_m1) pseudo_r
+    PR1_1 (pr1_m1 ninv) pseudo_r
+    CF2 (nnon vref) mimcap area=WCF*WCF perim=4*WCF
+    PR2_0 (nnon pr2_m1) pseudo_r
+    PR2_1 (pr2_m1 vref) pseudo_r
+    IPRB (vout vfb) iprobe
+    I0 (nnon ninv vout vdd vss iref) ota_fc_lna
+ends lna_cci
+VDD (vdd 0) vsource dc=VDD
+IREF (vdd iref1) isource dc=IREF
+VREF (vref 0) vsource dc=VREF
+VIP (vinp 0) vsource dc=VCM mag=0.5
+VIN (vinn 0) vsource dc=VCM mag=0.5 phase=180
+CL (vout 0) capacitor c=CL
+I1 (vinp vinn vref vout vdd 0 iref1) lna_cci
+save vout iref1 I1.ninv I1.nnon I1.I0.tail I1.I0.f1 I1.I0.f2 I1.I0.x1 I1.I0.p1 I1.I0.p2 I1.I0.nbn I1.I0.nbp I1.I0.vcp VDD:p I1.I0.M0_0:ids I1.I0.M0_0:gm I1.I0.M0_0:vds I1.I0.M0_0:vdsat I1.I0.M0_0:region I1.I0.M0_0:cgg I1.I0.M1:ids I1.I0.M1:gm I1.I0.M1:vds I1.I0.M1:vdsat I1.I0.M1:region I1.I0.M1:cgg I1.I0.M2:ids I1.I0.M2:gm I1.I0.M2:vds I1.I0.M2:vdsat I1.I0.M2:region I1.I0.M2:cgg I1.I0.M3_0:ids I1.I0.M3_0:gm I1.I0.M3_0:vds I1.I0.M3_0:vdsat I1.I0.M3_0:region I1.I0.M3_0:cgg I1.I0.M4_0:ids I1.I0.M4_0:gm I1.I0.M4_0:vds I1.I0.M4_0:vdsat I1.I0.M4_0:region I1.I0.M4_0:cgg I1.I0.M5:ids I1.I0.M5:gm I1.I0.M5:vds I1.I0.M5:vdsat I1.I0.M5:region I1.I0.M5:cgg I1.I0.M6:ids I1.I0.M6:gm I1.I0.M6:vds I1.I0.M6:vdsat I1.I0.M6:region I1.I0.M6:cgg I1.I0.M7:ids I1.I0.M7:gm I1.I0.M7:vds I1.I0.M7:vdsat I1.I0.M7:region I1.I0.M7:cgg I1.I0.M8:ids I1.I0.M8:gm I1.I0.M8:vds I1.I0.M8:vdsat I1.I0.M8:region I1.I0.M8:cgg I1.I0.M9:ids I1.I0.M9:gm I1.I0.M9:vds I1.I0.M9:vdsat I1.I0.M9:region I1.I0.M9:cgg I1.I0.M10:ids I1.I0.M10:gm I1.I0.M10:vds I1.I0.M10:vdsat I1.I0.M10:region I1.I0.M10:cgg I1.I0.XB.MC:ids I1.I0.XB.MC:gm I1.I0.XB.MC:vds I1.I0.XB.MC:vdsat I1.I0.XB.MC:region I1.I0.XB.MC:cgg I1.I0.XB.MBN_0:ids I1.I0.XB.MBN_0:gm I1.I0.XB.MBN_0:vds I1.I0.XB.MBN_0:vdsat I1.I0.XB.MBN_0:region I1.I0.XB.MBN_0:cgg I1.I0.XB.MBS_0:ids I1.I0.XB.MBS_0:gm I1.I0.XB.MBS_0:vds I1.I0.XB.MBS_0:vdsat I1.I0.XB.MBS_0:region I1.I0.XB.MBS_0:cgg I1.I0.XB.MCP:ids I1.I0.XB.MCP:gm I1.I0.XB.MCP:vds I1.I0.XB.MCP:vdsat I1.I0.XB.MCP:region I1.I0.XB.MCP:cgg I1.I0.XB.MBP_0:ids I1.I0.XB.MBP_0:gm I1.I0.XB.MBP_0:vds I1.I0.XB.MBP_0:vdsat I1.I0.XB.MBP_0:region I1.I0.XB.MBP_0:cgg
+op dc
+ac1 ac start=1m stop=100 dec=40
+t37 alter param=temp value=37
+ac37 ac start=1m stop=100 dec=40

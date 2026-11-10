@@ -1,0 +1,66 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 VREF=0.9 IREF=2.5e-08 CL=2e-12 LIN=4e-06 WPR=4e-07 LPR=4e-06 WCIN=0.00014122 LCIN1=0.00014122 WCF=1.3943e-05 VOS=0 AMP=0.001 FSIG=10
+simulatorOptions options reltol=1e-6 vabstol=1e-9 iabstol=1e-20 gmin=1e-20 temp=27 tnom=27
+subckt bias_gen vdd vss vcn nbn nbp vcp
+    MC (vcn vcn nbn vss) nmos1 w=4u l=1u m=1 ad=2.4p as=2.4p pd=9.2u ps=9.2u
+    MBN_0 (nbn nbn MBN_s1 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_1 (MBN_s1 nbn MBN_s2 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_2 (MBN_s2 nbn MBN_s3 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_3 (MBN_s3 nbn MBN_s4 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBN_4 (MBN_s4 nbn vss vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_0 (vcp nbn MBS_s1 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_1 (MBS_s1 nbn MBS_s2 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_2 (MBS_s2 nbn MBS_s3 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_3 (MBS_s3 nbn MBS_s4 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MBS_4 (MBS_s4 nbn vss vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MCP (vcp vcp nbp vdd) pmos1 w=20u l=1u m=1 ad=12p as=12p pd=41.2u ps=41.2u
+    MBP_0 (nbp nbp MBP_s1 vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    MBP_1 (MBP_s1 nbp vdd vdd) pmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+ends bias_gen
+subckt ota_fc_lna vip vin vout vdd vss iref
+    M0_0 (tail nbp M0_s1 vdd) pmos1 w=1u l=20u m=16 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M0_1 (M0_s1 nbp vdd vdd) pmos1 w=1u l=20u m=16 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    M1 (f1 vip tail tail) pmos1 w=50u l=LIN m=10 ad=30p as=30p pd=101.2u ps=101.2u
+    M2 (f2 vin tail tail) pmos1 w=50u l=LIN m=10 ad=30p as=30p pd=101.2u ps=101.2u
+    M3_0 (f1 nbn M3_s1 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_1 (M3_s1 nbn M3_s2 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_2 (M3_s2 nbn M3_s3 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_3 (M3_s3 nbn M3_s4 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M3_4 (M3_s4 nbn vss vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_0 (f2 nbn M4_s1 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_1 (M4_s1 nbn M4_s2 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_2 (M4_s2 nbn M4_s3 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_3 (M4_s3 nbn M4_s4 vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M4_4 (M4_s4 nbn vss vss) nmos1 w=0.4u l=20u m=10 ad=0.24p as=0.24p pd=2u ps=2u
+    M5 (x1 iref f1 vss) nmos1 w=0.4u l=1u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M6 (vout iref f2 vss) nmos1 w=0.4u l=1u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    M7 (p1 x1 vdd vdd) pmos1 w=0.5u l=20u m=1 ad=0.3p as=0.3p pd=2.2u ps=2.2u
+    M8 (p2 x1 vdd vdd) pmos1 w=0.5u l=20u m=1 ad=0.3p as=0.3p pd=2.2u ps=2.2u
+    M9 (x1 vcp p1 vdd) pmos1 w=0.6u l=1u m=1 ad=0.36p as=0.36p pd=2.4u ps=2.4u
+    M10 (vout vcp p2 vdd) pmos1 w=0.6u l=1u m=1 ad=0.36p as=0.36p pd=2.4u ps=2.4u
+    XB (vdd vss iref nbn nbp vcp) bias_gen
+ends ota_fc_lna
+subckt pseudo_r a b
+    MPA (mid mid a a) pmos1 w=WPR l=LPR ad=WPR*0.6u as=WPR*0.6u pd=2*WPR+1.2u ps=2*WPR+1.2u
+    MPB (mid mid b b) pmos1 w=WPR l=LPR ad=WPR*0.6u as=WPR*0.6u pd=2*WPR+1.2u ps=2*WPR+1.2u
+ends pseudo_r
+subckt lna_cci vinp vinn vref vout vdd vss iref
+    CIN1 (vinp ninv) mimcap area=WCIN*LCIN1 perim=2*WCIN+2*LCIN1
+    CIN2 (vinn nnon) mimcap area=WCIN*WCIN perim=4*WCIN
+    CF1 (vfb ninv) mimcap area=WCF*WCF perim=4*WCF
+    PR1 (vfb ninv) pseudo_r
+    CF2 (nnon vref) mimcap area=WCF*WCF perim=4*WCF
+    PR2 (nnon vref) pseudo_r
+    IPRB (vout vfb) iprobe
+    I0 (nnon ninv vout vdd vss iref) ota_fc_lna
+ends lna_cci
+parameters DV=0
+VB (b 0) vsource dc=0.9
+VA (a 0) vsource dc=0.9+DV
+X (a b) pseudo_r
+save VA:p
+swT sweep param=temp values=[0 27 37 80] {
+  sw dc param=DV start=-1 stop=1 step=1m
+}
