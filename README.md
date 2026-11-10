@@ -3,11 +3,10 @@
 A sub-microwatt ECG/EEG recording channel in 180 nm CMOS, designed from scratch with the gm/ID method and checked
 against hand calculations at every step.
 
-This started from my analog circuits assignment, where we had to simulate and analyse a single-stage OTA. I was
-building a digital stethoscope in parallel and thought: what if I designed a better AFE for it? All I knew going in was
+I thought of this project from my analog circuits assignment, where we had to simulate and analyse a single-stage OTA. I was
+building a digital stethoscope in parallel and thought what if I designed a better AFE for it? All I knew going in was
 OTA theory, so the rest (LNA, pseudo-resistors, noise, chopping) is something I'm learning as I go, from a few TAs, the
-internet and AI tools. The AI agent helps with schematic/testbench automation and simulation runs; I set the targets,
-check results against hand calcs, and I'm rebuilding the core blocks by hand in ADE to own the details.
+internet and AI tools. I plan to continue beyond phase 3 in winter vacations. For now I have used some ECG data available on web but hopefully in future, I will test the AFE with the data I acquire myself.
 
 **Tools:** Cadence Virtuoso + Spectre, gpdk180 (BSIM3v3), Python for post-processing.
 **Data:** public recordings from the web for now (PhysioNet-style); hopefully my own recordings from the stethoscope later.
