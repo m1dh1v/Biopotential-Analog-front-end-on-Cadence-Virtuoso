@@ -1,0 +1,8 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 VREF=0.9 IREF=2.5e-08 CL=2e-12 LIN=1e-06 WINF=1e-06 WS1A=8e-07 VOS=0 AMP=0 FSIG=10 VCMA=0 VDA=0 VSTEP=0 TSTEP=0.01 TRD=0.01 TRW=0.001 RSTEN=0 VOSI=0 FCH=5000 TNO=3e-08 TOV=3e-08 TR=5e-09 VSTEP6=0 STAT=0 CH3EN=1 WCIN=0.00014122 LCIN1=0.00014122 WCF=1.3943e-05 DV=0
+include "/home/ISDL_UG_86/Desktop/cmos65/sim/afe/tb_lna_chop_sch.scs"
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-15 gmin=1e-15 temp=27 tnom=27
+save vout1 I1.ninv I1.nnon
+tr tran stop=4 maxstep=10u strobeperiod=20u errpreset=moderate

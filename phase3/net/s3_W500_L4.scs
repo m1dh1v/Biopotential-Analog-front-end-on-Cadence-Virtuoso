@@ -1,0 +1,10 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 VREF=0.9 IREF=2.5e-08 CL=2e-12 LIN=4e-06 WINF=5e-05 WS1A=8e-07 VOS=0 AMP=0 FSIG=10 VCMA=0 VDA=0 VSTEP=0 TSTEP=0.01 TRD=0.01 TRW=0.001 RSTEN=0 VOSI=0 FCH=5000 TNO=3e-08 TOV=3e-08 TR=5e-09 VSTEP6=0 STAT=0 CH3EN=1 WCIN=0.00014122 LCIN1=0.00014122 WCF=1.3943e-05 DV=0
+include "/home/ISDL_UG_86/Desktop/cmos65/sim/afe/tb_lna_chop_sch.scs"
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-15 gmin=1e-15 temp=27 tnom=27
+save vout1 vout2 vout4 vout5 vout6 VDD1:p VDD6:p VIP1:p VIN1:p I1.ninv I1.nnon I1.vfb I1.I0.g1 I1.I0.g2 I1.I0.f1 I1.I0.f2 I1.I0.s5 I1.I0.s6 I1.I0.d1 I1.I0.p1 I1.I0.q9 c1 c2 o1 o2 o3 VKc1:p VKc1b:p VKc2:p VKc2b:p VKo1:p VKo1b:p VKo2:p VKo2b:p VKo3:p VKo3b:p VKo4:p VKo4b:p
+pss1 pss fund=FCH harms=20 tstab=5/FCH errpreset=conservative
+pac1 pac start=0.1 stop=100k dec=20 sweeptype=absolute maxsideband=10
+pn1 (vout1 0) pnoise start=0.1 stop=100k dec=20 sweeptype=absolute maxsideband=30 noisetype=timeaverage

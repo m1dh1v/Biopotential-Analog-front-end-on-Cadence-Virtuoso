@@ -1,0 +1,5 @@
+; Phase-3 helper: gpdk mos with width given as an expression/design variable (single finger, multiplier m)
+procedure(A_mosv(i W L m)
+  A_set(i "fingers" "1") A_set(i "fw" W) A_set(i "w" W) A_set(i "l" L) A_set(i "m" sprintf(nil "%d" m))
+  A_set(i "ad" strcat(W "*0.6u")) A_set(i "as" strcat(W "*0.6u"))
+  A_set(i "pd" strcat("2*" W "+1.2u")) A_set(i "ps" strcat("2*" W "+1.2u")))

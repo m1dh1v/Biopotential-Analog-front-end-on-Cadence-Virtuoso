@@ -1,0 +1,28 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 VREF=0.9 IREF=2.5e-08 CL=2e-12 LIN=1e-06 WINF=1e-06 WS1A=8e-07 VOS=0 AMP=0 FSIG=10 VCMA=0 VDA=0 VSTEP=0 TSTEP=0.01 TRD=0.01 TRW=0.001 RSTEN=0 VOSI=0 FCH=5000 TNO=3e-08 TOV=3e-08 TR=5e-09 VSTEP6=0 STAT=1 CH3EN=1 WCIN=0.00014122 LCIN1=0.00014122 WCF=1.3943e-05 DV=0
+include "/home/ISDL_UG_86/Desktop/cmos65/sim/afe/tb_lna_chop_sch.scs"
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-15 gmin=1e-15 temp=27 tnom=27
+save I1.I0.M1:cgg I1.I0.M1:gm I1.I0.M1:ids I1.I0.M1:cgd I1.I0.M1:cgs
+a0 alter param=WINF value=5e-05
+b0 alter param=LIN value=1e-06
+op0 dc
+a1 alter param=WINF value=5e-05
+b1 alter param=LIN value=2e-06
+op1 dc
+a2 alter param=WINF value=5e-05
+b2 alter param=LIN value=4e-06
+op2 dc
+a3 alter param=WINF value=2e-06
+b3 alter param=LIN value=1e-06
+op3 dc
+a4 alter param=WINF value=4e-06
+b4 alter param=LIN value=1e-06
+op4 dc
+a5 alter param=WINF value=1e-05
+b5 alter param=LIN value=1e-06
+op5 dc
+a6 alter param=WINF value=1e-06
+b6 alter param=LIN value=1e-06
+op6 dc
