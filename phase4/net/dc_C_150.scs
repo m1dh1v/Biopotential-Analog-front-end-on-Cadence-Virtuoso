@@ -1,0 +1,32 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 IB=1.83e-09 WC=0.00014122 AMP=0.25 FSIG=30 VD=0
+simulatorOptions options reltol=1e-6 vabstol=1e-9 iabstol=1e-18 gmin=1e-15 temp=27 tnom=27
+subckt gmc inp inn out vdd vss nbt
+    parameters mt=1
+    MT (tail nbt vdd vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MD1 (s1 s1 tail tail) pmos1 w=10u l=10u m=1 ad=6p as=6p pd=21.2u ps=21.2u
+    MD2 (s2 s2 tail tail) pmos1 w=10u l=10u m=1 ad=6p as=6p pd=21.2u ps=21.2u
+    M1 (d1 inp s1 s1) pmos1 w=10u l=10u m=1 ad=6p as=6p pd=21.2u ps=21.2u
+    M2 (out inn s2 s2) pmos1 w=10u l=10u m=1 ad=6p as=6p pd=21.2u ps=21.2u
+    MN1 (d1 d1 vss vss) nmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+    MN2 (out d1 vss vss) nmos1 w=1u l=20u m=1 ad=0.6p as=0.6p pd=3.2u ps=3.2u
+ends gmc
+subckt lpf vin vout vdd vss ib
+    MB (nbt nbt vdd vdd) pmos1 w=2u l=20u m=1 ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    RIB (ib nbt) resistor r=1
+    G1 (vin vout v1 vdd vss nbt) gmc mt=1
+    G2 (v1 vout vout vdd vss nbt) gmc mt=2
+    C1 (v1 vss) mimcap area=WC*WC perim=4*WC
+    C2 (vout vss) mimcap area=WC*WC perim=4*WC
+ends lpf
+VDD (vdd 0) vsource dc=VDD
+IB (nbt 0) isource dc=IB
+    MB (nbt nbt vdd vdd) pmos1 w=2u l=20u m=1 ad=1.2p as=1.2p pd=5.2u ps=5.2u
+VP (inp 0) vsource dc=VCM+VD/2
+VN (inn 0) vsource dc=VCM-VD/2
+VO (out 0) vsource dc=VCM
+X1 (inp inn out vdd 0 nbt) gmc mt=1
+save VO:p VDD:p
+sw dc param=VD start=-0.5 stop=0.5 step=2m

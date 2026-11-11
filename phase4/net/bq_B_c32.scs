@@ -1,0 +1,53 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 IB=1.13e-09 WC=0.0001786 AMP=0.25 FSIG=30 VD=0
+simulatorOptions options reltol=1e-6 vabstol=1e-9 iabstol=1e-18 gmin=1e-15 temp=27 tnom=27
+subckt gmc inp inn out vdd vss nbt
+    parameters mt=1
+    MTA_0 (ta nbt mta_s1 vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTA_1 (mta_s1 nbt mta_s2 vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTA_2 (mta_s2 nbt mta_s3 vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTA_3 (mta_s3 nbt mta_s4 vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTA_4 (mta_s4 nbt vdd vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTB_0 (tb nbt mtb_s1 vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTB_1 (mtb_s1 nbt mtb_s2 vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTB_2 (mtb_s2 nbt mtb_s3 vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTB_3 (mtb_s3 nbt mtb_s4 vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MTB_4 (mtb_s4 nbt vdd vdd) pmos1 w=2u l=20u m=mt ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    M1A (d1 inp ta ta) pmos1 w=10u l=10u m=4 ad=6p as=6p pd=21.2u ps=21.2u
+    M2A (out inn ta ta) pmos1 w=10u l=10u m=1 ad=6p as=6p pd=21.2u ps=21.2u
+    M1B (d1 inp tb tb) pmos1 w=10u l=10u m=1 ad=6p as=6p pd=21.2u ps=21.2u
+    M2B (out inn tb tb) pmos1 w=10u l=10u m=4 ad=6p as=6p pd=21.2u ps=21.2u
+    MN1_0 (d1 d1 mn1_s1 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN1_1 (mn1_s1 d1 mn1_s2 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN1_2 (mn1_s2 d1 mn1_s3 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN1_3 (mn1_s3 d1 mn1_s4 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN1_4 (mn1_s4 d1 vss vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN2_0 (out d1 mn2_s1 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN2_1 (mn2_s1 d1 mn2_s2 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN2_2 (mn2_s2 d1 mn2_s3 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN2_3 (mn2_s3 d1 mn2_s4 vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+    MN2_4 (mn2_s4 d1 vss vss) nmos1 w=0.4u l=20u m=1 ad=0.24p as=0.24p pd=2u ps=2u
+ends gmc
+subckt lpf vin vout vdd vss ib
+    MB_0 (nbt nbt mb_s1 vdd) pmos1 w=2u l=20u m=1 ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MB_1 (mb_s1 nbt mb_s2 vdd) pmos1 w=2u l=20u m=1 ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MB_2 (mb_s2 nbt mb_s3 vdd) pmos1 w=2u l=20u m=1 ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MB_3 (mb_s3 nbt mb_s4 vdd) pmos1 w=2u l=20u m=1 ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    MB_4 (mb_s4 nbt vdd vdd) pmos1 w=2u l=20u m=1 ad=1.2p as=1.2p pd=5.2u ps=5.2u
+    RIB (ib nbt) resistor r=1
+    G1 (vin vout v1 vdd vss nbt) gmc mt=1
+    G2 (v1 vout vout vdd vss nbt) gmc mt=2
+    C1 (v1 vss) mimcap area=WC*WC perim=4*WC
+    C2 (vout vss) mimcap area=WC*WC perim=4*WC
+ends lpf
+VDD (vdd 0) vsource dc=VDD
+IB (ib 0) isource dc=IB
+VIN (vin 0) vsource type=sine dc=VCM sinedc=VCM ampl=AMP freq=FSIG mag=1
+X1 (vin vout vdd 0 ib) lpf
+save vout X1.v1 VDD:p VIN:p
+op dc
+ac1 ac start=0.1 stop=100k dec=20
+nz (vout 0) noise start=0.1 stop=100k dec=20
+tr tran stop=0.4 maxstep=8.33333e-05 errpreset=conservative
