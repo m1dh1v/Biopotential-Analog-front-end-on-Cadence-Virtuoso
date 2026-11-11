@@ -1,0 +1,22 @@
+simulator lang=spectre
+global 0
+include "/cad/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+parameters VDD=1.8 VCM=0.9 VREF=0.9 IREF=2.5e-08 CL=2e-12 LIN=4e-06 VOS=0 AMP=0.001 FSIG=10 VCMA=0.1 VDA=0.0001 VSTEP=0.05 DV=0 WCIN=0.00014122 LCIN1=0.00014122 WCF=1.3943e-05
+include "/home/ISDL_UG_86/Desktop/cmos65/sim/afe/tb_lna_sch.scs"
+simulatorOptions options reltol=1e-5 vabstol=1e-8 iabstol=1e-15 gmin=1e-15 temp=27 tnom=27
+save vout1 vout2 vout3 vout4 I1.ninv I1.nnon I1.vfb I1.I0.tail I1.I0.f1 I1.I0.f2 I1.I0.x1 I1.I0.p1 I1.I0.p2 I1.I0.nbn I1.I0.nbp I1.I0.vcp iref1 VDD1:p VDD2:p VDD3:p VDD4:p IREF1:p I1.I0.M1:ids I1.I0.M1:gm I1.I0.M1:gds I1.I0.M1:vgs I1.I0.M1:vds I1.I0.M1:vth I1.I0.M1:vdsat I1.I0.M1:region I1.I0.M1:cgg I1.I0.M2:ids I1.I0.M2:gm I1.I0.M2:gds I1.I0.M2:vgs I1.I0.M2:vds I1.I0.M2:vth I1.I0.M2:vdsat I1.I0.M2:region I1.I0.M2:cgg I1.I0.M5:ids I1.I0.M5:gm I1.I0.M5:gds I1.I0.M5:vgs I1.I0.M5:vds I1.I0.M5:vth I1.I0.M5:vdsat I1.I0.M5:region I1.I0.M5:cgg I1.I0.M6:ids I1.I0.M6:gm I1.I0.M6:gds I1.I0.M6:vgs I1.I0.M6:vds I1.I0.M6:vth I1.I0.M6:vdsat I1.I0.M6:region I1.I0.M6:cgg I1.I0.M7:ids I1.I0.M7:gm I1.I0.M7:gds I1.I0.M7:vgs I1.I0.M7:vds I1.I0.M7:vth I1.I0.M7:vdsat I1.I0.M7:region I1.I0.M7:cgg I1.I0.M8:ids I1.I0.M8:gm I1.I0.M8:gds I1.I0.M8:vgs I1.I0.M8:vds I1.I0.M8:vth I1.I0.M8:vdsat I1.I0.M8:region I1.I0.M8:cgg I1.I0.M9:ids I1.I0.M9:gm I1.I0.M9:gds I1.I0.M9:vgs I1.I0.M9:vds I1.I0.M9:vth I1.I0.M9:vdsat I1.I0.M9:region I1.I0.M9:cgg I1.I0.M10:ids I1.I0.M10:gm I1.I0.M10:gds I1.I0.M10:vgs I1.I0.M10:vds I1.I0.M10:vth I1.I0.M10:vdsat I1.I0.M10:region I1.I0.M10:cgg I1.I0.M0\<0\>.M1:ids I1.I0.M0\<0\>.M1:gm I1.I0.M0\<0\>.M1:gds I1.I0.M0\<0\>.M1:vgs I1.I0.M0\<0\>.M1:vds I1.I0.M0\<0\>.M1:vth I1.I0.M0\<0\>.M1:vdsat I1.I0.M0\<0\>.M1:region I1.I0.M0\<0\>.M1:cgg I1.I0.M0\<0\>.M0:ids I1.I0.M0\<0\>.M0:gm I1.I0.M0\<0\>.M0:gds I1.I0.M0\<0\>.M0:vgs I1.I0.M0\<0\>.M0:vds I1.I0.M0\<0\>.M0:vth I1.I0.M0\<0\>.M0:vdsat I1.I0.M0\<0\>.M0:region I1.I0.M0\<0\>.M0:cgg I1.I0.M3\<0\>.M0:ids I1.I0.M3\<0\>.M0:gm I1.I0.M3\<0\>.M0:gds I1.I0.M3\<0\>.M0:vgs I1.I0.M3\<0\>.M0:vds I1.I0.M3\<0\>.M0:vth I1.I0.M3\<0\>.M0:vdsat I1.I0.M3\<0\>.M0:region I1.I0.M3\<0\>.M0:cgg I1.I0.M4\<0\>.M0:ids I1.I0.M4\<0\>.M0:gm I1.I0.M4\<0\>.M0:gds I1.I0.M4\<0\>.M0:vgs I1.I0.M4\<0\>.M0:vds I1.I0.M4\<0\>.M0:vth I1.I0.M4\<0\>.M0:vdsat I1.I0.M4\<0\>.M0:region I1.I0.M4\<0\>.M0:cgg I1.I0.XB.MC:ids I1.I0.XB.MC:gm I1.I0.XB.MC:gds I1.I0.XB.MC:vgs I1.I0.XB.MC:vds I1.I0.XB.MC:vth I1.I0.XB.MC:vdsat I1.I0.XB.MC:region I1.I0.XB.MC:cgg I1.I0.XB.MCP:ids I1.I0.XB.MCP:gm I1.I0.XB.MCP:gds I1.I0.XB.MCP:vgs I1.I0.XB.MCP:vds I1.I0.XB.MCP:vth I1.I0.XB.MCP:vdsat I1.I0.XB.MCP:region I1.I0.XB.MCP:cgg I1.I0.XB.MBN.M0:ids I1.I0.XB.MBN.M0:gm I1.I0.XB.MBN.M0:gds I1.I0.XB.MBN.M0:vgs I1.I0.XB.MBN.M0:vds I1.I0.XB.MBN.M0:vth I1.I0.XB.MBN.M0:vdsat I1.I0.XB.MBN.M0:region I1.I0.XB.MBN.M0:cgg I1.I0.XB.MBS.M0:ids I1.I0.XB.MBS.M0:gm I1.I0.XB.MBS.M0:gds I1.I0.XB.MBS.M0:vgs I1.I0.XB.MBS.M0:vds I1.I0.XB.MBS.M0:vth I1.I0.XB.MBS.M0:vdsat I1.I0.XB.MBS.M0:region I1.I0.XB.MBS.M0:cgg I1.I0.XB.MBP.M1:ids I1.I0.XB.MBP.M1:gm I1.I0.XB.MBP.M1:gds I1.I0.XB.MBP.M1:vgs I1.I0.XB.MBP.M1:vds I1.I0.XB.MBP.M1:vth I1.I0.XB.MBP.M1:vdsat I1.I0.XB.MBP.M1:region I1.I0.XB.MBP.M1:cgg I1.I0.XB.MBP.M0:ids I1.I0.XB.MBP.M0:gm I1.I0.XB.MBP.M0:gds I1.I0.XB.MBP.M0:vgs I1.I0.XB.MBP.M0:vds I1.I0.XB.MBP.M0:vth I1.I0.XB.MBP.M0:vdsat I1.I0.XB.MBP.M0:region I1.I0.XB.MBP.M0:cgg
+op dc
+nz (vout1 0) noise start=10m stop=100k dec=20
+swc sweep param=CL values=[2p 5p] {
+  ac1 ac start=1m stop=1M dec=20
+  stb1 stb start=1m stop=10M dec=20 probe=I1.IPRB
+}
+t0 alter param=temp value=0
+ac_T0 ac start=1m stop=1M dec=20
+t37 alter param=temp value=37
+ac_T37 ac start=1m stop=1M dec=20
+t80 alter param=temp value=80
+ac_T80 ac start=1m stop=1M dec=20
+t27 alter param=temp value=27
+mm alter param=LCIN1 value=WCIN*1.001
+ac_mm ac start=1m stop=1M dec=20
